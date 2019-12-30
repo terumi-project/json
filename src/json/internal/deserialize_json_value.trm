@@ -4,9 +4,10 @@ JsonValue deserialize_json_value(StringView input)
 {
 	string read = input.peek(1)
 	
-	if (read == "'") return new JsonValue(deserialize_string(input))
+	if (read == "\"") return new JsonValue(deserialize_string(input))
 	if (try_number(read) < 10) return new JsonValue(deserialize_number(input))
 	if (read == "\{") return new JsonValue(deserialize_json_object(input))
+	if (read == "[") return new JsonValue(deserialize_json_array(input))
 	
-	@panic("Unable to deserialize json value from input '{input.to_string()}'")
+	@panic("Unable to deserialize json value from input (read '{read}') '{input.to_string()}'")
 }

@@ -57,9 +57,7 @@ class StringView
 		if (read == "	") return true
 		
 		// newline
-		if (read == "
-
-") return true
+		if (read == "\n") return true
 
 		return false
 	}

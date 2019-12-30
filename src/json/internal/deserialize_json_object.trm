@@ -1,16 +1,5 @@
 use json
 
-JsonValue deserialize_json_value(StringView input)
-{
-	string read = input.peek(1)
-	
-	if (read == "\"") return new JsonValue(deserialize_string(input))
-	if (try_number(read) < 10) return new JsonValue(deserialize_number(input))
-	if (read == "\{") return new JsonValue(deserialize_json_object(input))
-	
-	@panic("Unable to deserialize json value from input '{input.to_string()}'")
-}
-
 JsonObject deserialize_json_object(StringView input)
 {
 	input.skip_whitespace()

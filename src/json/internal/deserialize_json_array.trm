@@ -1,0 +1,38 @@
+use json
+
+JsonArray deserialize_json_array(StringView input)
+{
+	input.skip_whitespace()
+	string read = input.take(1)
+	
+	if (read != "[") @panic("espected opening bracket ([) for json array in input '{input.to_string()}'")
+	
+	JsonArray building = new JsonArray()
+	
+	bool expecting_more = false
+	
+	input.skip_whitespace()
+	while (input.peek(1) != "]") {
+	
+		JsonValue value = deserialize_json_value(input)
+		input.skip_whitespace()
+		
+		building.add(value)
+		
+		expecting_more = false
+		if (input.peek(1) == ",") {
+			input.advance(1)
+			input.skip_whitespace()
+			expecting_more = true
+		}
+	}
+	
+	// consome ]
+	input.advance(1)
+	
+	if (expecting_more) {
+		@panic("expected more json, but didn't get more")
+	}
+	
+	return building
+}

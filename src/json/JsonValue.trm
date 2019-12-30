@@ -108,15 +108,23 @@ class JsonValue
 	
 	string to_string() {
 		if (_value_type == 1) {
-			return "'{_value_string}'"
+			return "\"{_value_string}\""
 		}
 		
 		if (_value_type == 2) {
-			return "{to_string(_value_number)}"
+			return to_string(_value_number)
+		}
+		
+		if (_value_type == 3) {
+			return to_string(_value_bool)
 		}
 		
 		if (_value_type == 4) {
 			return _value_json_object.to_string()
+		}
+		
+		if (_value_type == 5) {
+			return _value_json_array.to_string()
 		}
 		
 		return "N/A"

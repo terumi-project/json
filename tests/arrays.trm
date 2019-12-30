@@ -1,0 +1,21 @@
+
+
+main()
+{
+	JsonObject object = new JsonObject()
+	object.add("a", new JsonValue(1))
+	object.add("b", new JsonValue(2))
+
+	JsonArray second = new JsonArray()
+	second.add(new JsonValue("Inner Array!"))
+	second.add(new JsonValue(4132889))
+	second.add(new JsonValue(object))
+
+	JsonArray array = new JsonArray()
+	
+	array.add(new JsonValue("Hello, World!"))
+	array.add(new JsonValue(1234567))
+	array.add(new JsonValue(object))
+	
+	@println(array.to_string())
+}

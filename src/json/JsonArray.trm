@@ -2,5 +2,89 @@ use json.internal
 
 class JsonArray
 {
+	_JsonValues _root
+	_JsonValues _top
 	
+	ctor(string value) {
+		JsonArray array = deserialize_json_array(new StringView(value))
+		_root = array._root
+		_top = array._top
+	}
+	
+	ctor() {
+		_root = new _JsonValues()
+		_top = _root
+	}
+	
+	JsonArrayIterator iterate() {
+		return new JsonArrayIterator(_root)
+	}
+	
+	JsonValue value(number index) {
+		JsonArrayIterator iterator = iterate()
+		
+		for (number i = 0; i < index; i++) {
+			if (!iterator.has_next()) {
+				@panic("couldn't get index '{to_string(index)}' of json array")
+			}
+			
+			if (i == index - 1) {
+				return iterator.next()
+			} else {
+				iterator.next()
+			}
+		}
+		
+		@panic("couldn't iterate to index '{to_string(index)}' of json array")
+	}
+
+	add(JsonValue value) {
+		_JsonValues new_top = new _JsonValues()
+		
+		_top.value = value
+		_top.is_next = true
+		_top.next = new_top
+		
+		_top = new_top
+	}
+	
+	// 'put' because 'set' is reserved
+	// TODO: allow 'set' as method name
+	put(number index, JsonValue value) {
+		JsonArrayIterator iterator = iterate()
+		
+		for (number i = 0; i < index; i++) {
+			if (!iterator.has_next()) {
+				@panic("couldn't set index '{to_string(index)}' of json array")
+			}
+			
+			if (i == index - 1) {
+				_JsonValues current = iterator._current
+				current.value = value
+				return
+			} else {
+				JsonValue discard = iterator.next()
+			}
+		}
+		
+		@panic("couldn't iterate to index '{to_string(index)}' of json array")
+	}
+	
+	string to_string() {
+		string json = "["
+		bool needs_comma = false
+		
+		JsonArrayIterator iterator = iterate()
+		while (iterator.has_next()) {
+			if (needs_comma) {
+				json = "{json}, "
+			}
+		
+			json = "{json}{iterator.next().to_string()}"
+			needs_comma = true
+		}
+		
+		json = "{json}]"
+		return json
+	}
 }
