@@ -1,0 +1,14 @@
+use json
+
+// linked list of json objects
+class _JsonObjects
+{
+	ctor() {
+		is_next = false
+	}
+
+	bool is_next
+	_JsonObjects next
+	
+	JsonValuePair value
+}

@@ -1,0 +1,70 @@
+use json
+
+// simple helper for consuming a string and advancing it
+
+class StringView
+{
+	string _value
+	number _amount
+
+	ctor(string input) {
+		_value = input
+		_amount = 0
+	}
+	
+	advance(number amount) {
+		_amount = _amount + amount
+		
+		if (length() < 0) {
+			@panic("length negative after advance of '{to_string(amount)}'")
+		}
+	}
+	
+	string peek(number amount) {
+		if (length() - amount < 0) {
+			@panic("cannot peek '{to_string(amount)}' chars")
+		}
+	
+		return @string_substring(_value, _amount, amount)
+	}
+	
+	string take(number amount) {
+		string result = peek(amount)
+		advance(amount)
+		return result
+	}
+	
+	number length() {
+		return @string_length(_value) - _amount
+	}
+	
+	skip_whitespace() {
+		if (length() >= 0) {
+		
+			while (_peek_is_whitespace()) {
+				advance(1)
+			}
+		}
+	}
+	
+	bool _peek_is_whitespace() {
+		string read = peek(1)
+		
+		// space
+		if (read == " ") return true
+		
+		// tab
+		if (read == "	") return true
+		
+		// newline
+		if (read == "
+
+") return true
+
+		return false
+	}
+	
+	string to_string() {
+		return @string_substring(_value, _amount, length())
+	}
+}

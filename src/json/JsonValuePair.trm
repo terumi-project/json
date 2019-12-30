@@ -1,0 +1,12 @@
+use json.internal
+
+class JsonValuePair
+{
+	ctor(string json_value_pair_key, JsonValue json_value_pair_value) {
+		key = json_value_pair_key
+		value = json_value_pair_value
+	}
+
+	string key
+	JsonValue value
+}

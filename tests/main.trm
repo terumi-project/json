@@ -1,0 +1,21 @@
+// TODO: get tests working
+main()
+{
+	JsonObject mvapi_response = new JsonObject()
+	mvapi_response.add("0", new JsonValue(rgb(0, 0, 0)))
+	mvapi_response.add("1", new JsonValue(rgb(127, 127, 127)))
+	mvapi_response.add("2", new JsonValue(rgb(255, 255, 255)))
+	
+	@println("made response: {mvapi_response.to_string()}")
+	
+	JsonObject clone = new JsonObject(mvapi_response.to_string())
+	@println("cloned: {clone.to_string()}")
+}
+
+JsonObject rgb(number r, number g, number b) {
+	JsonObject json_rgb = new JsonObject()
+	json_rgb.add("r", new JsonValue(r))
+	json_rgb.add("g", new JsonValue(g))
+	json_rgb.add("b", new JsonValue(b))
+	return json_rgb
+}

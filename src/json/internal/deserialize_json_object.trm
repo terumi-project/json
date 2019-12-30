@@ -1,0 +1,57 @@
+use json
+
+JsonValue deserialize_json_value(StringView input)
+{
+	string read = input.peek(1)
+	
+	if (read == "'") return new JsonValue(deserialize_string(input))
+	if (try_number(read) < 10) return new JsonValue(deserialize_number(input))
+	if (read == "\{") return new JsonValue(deserialize_json_object(input))
+	
+	@panic("Unable to deserialize json value from input '{input.to_string()}'")
+}
+
+JsonObject deserialize_json_object(StringView input)
+{
+	input.skip_whitespace()
+	string read = input.take(1)
+	
+	if (read != "\{") @panic("expected opening curly bracket (\{) for json object in input '{input.to_string()}'")
+	
+	JsonObject building = new JsonObject()
+	
+	bool expecting_more = false
+	
+	input.skip_whitespace()
+	while (input.peek(1) != "\}") {
+	
+		string key = deserialize_string(input)
+		
+		input.skip_whitespace()
+		if (input.take(1) != ":") @panic("expected colon (:) for json object in input: '{input.to_string()}'")
+	
+		input.skip_whitespace()
+		JsonValue value = deserialize_json_value(input)
+
+		building.add(key, value)
+		
+		input.skip_whitespace()
+		
+		if (input.peek(1) == ",") {
+			input.advance(1)
+			input.skip_whitespace()
+			expecting_more = true
+		} else {
+			expecting_more = false
+		}
+	}
+	
+	// consume }
+	input.advance(1)
+	
+	if (expecting_more) {
+		@panic("expected more json, but didn't get more")
+	}
+	
+	return building
+}

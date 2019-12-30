@@ -1,0 +1,92 @@
+use json.internal
+
+class JsonObject
+{
+	_JsonObjects _json
+	
+	// O(1) to add items
+	_JsonObjects _top
+	
+	ctor(string value) {
+		JsonObject json_object = deserialize_json_object(new StringView(value))
+		_json = json_object._json
+		_top = json_object._top
+	}
+
+	ctor() {
+		_json = new _JsonObjects()
+		_top = _json
+	}
+	
+	bool has_value(string key) {
+		JsonObjectIterator iterator = iterate()
+		
+		while (iterator.has_next()) {
+			JsonValuePair pair = iterator.next()
+			
+			@println("pair: '{pair.key}' == '{key}'")
+			if (pair.key == key) {
+				@println("is: true")
+		@println(to_string(_json.is_next))
+				return true
+			}
+			
+			@println("nxt")
+		}
+		
+		@println("is: false")
+		@println(to_string(_json.is_next))
+		return false
+	}
+	
+	JsonValue value(string key) {
+		if (!has_value(key)) {
+			@panic("JsonValue doesn't have value for key '{key}'")
+		}
+		
+		JsonObjectIterator iterator = iterate()
+		
+		while (iterator.has_next()) {
+			JsonValuePair pair = iterator.next()
+			
+			if (pair.key == key) {
+				return pair.value
+			}
+		}
+		
+		@panic("[BUG]")
+	}
+	
+	add(string key, JsonValue value) {
+		_JsonObjects new_top = new _JsonObjects()
+		
+		_top.value = new JsonValuePair(key, value)
+		_top.is_next = true
+		_top.next = new_top
+		
+		_top = new_top
+	}
+	
+	JsonObjectIterator iterate() {
+		return new JsonObjectIterator(_json)
+	}
+	
+	string to_string() {
+		string json = "\{"
+		bool needs_comma = false
+
+		JsonObjectIterator iterator = iterate()
+		while (iterator.has_next()) {
+			JsonValuePair pair = iterator.next()
+
+			if (needs_comma) {
+				json = "{json}, "
+			}
+
+			json = "{json}{new JsonValue(pair.key).to_string()}: {pair.value.to_string()}"
+			needs_comma = true
+		}
+
+		return "{json}\}"
+	}
+}

@@ -1,0 +1,24 @@
+use json.internal
+
+class JsonObjectIterator
+{
+	_JsonObjects _current
+	
+	ctor(_JsonObjects json_objects) {
+		_current = json_objects
+	}
+	
+	bool has_next() {
+		return _current.is_next
+	}
+	
+	JsonValuePair next() {
+		if (!_current.is_next) {
+			return _current.value
+		}
+	
+		JsonValuePair value = _current.value
+		_current = _current.next
+		return value
+	}
+}

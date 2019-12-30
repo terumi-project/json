@@ -1,0 +1,6 @@
+use json.internal
+
+class JsonArray
+{
+	
+}

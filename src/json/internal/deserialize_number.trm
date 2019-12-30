@@ -1,0 +1,42 @@
+use json
+
+number deserialize_number(StringView input)
+{
+	string first = input.take(1)
+	number total = try_number(first)
+	
+	if (total == 10) {
+		@panic("couldn't deserialize number beginning with '{first}'")
+	}
+	
+	number tried = try_number(input.peek(1))
+	
+	while (tried < 10) {
+		total = (total * 10) + tried
+		input.advance(1)
+		
+		if (input.length() == 0) {
+			tried = 10
+		} else {
+			tried = try_number(input.peek(1))
+		}
+	}
+	
+	return total
+}
+
+number try_number(string char)
+{
+	if (char == "0") return 0
+	if (char == "1") return 1
+	if (char == "2") return 2
+	if (char == "3") return 3
+	if (char == "4") return 4
+	if (char == "5") return 5
+	if (char == "6") return 6
+	if (char == "7") return 7
+	if (char == "8") return 8
+	if (char == "9") return 9
+	
+	return 10
+}
