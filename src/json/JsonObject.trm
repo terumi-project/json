@@ -24,18 +24,11 @@ class JsonObject
 		while (iterator.has_next()) {
 			JsonValuePair pair = iterator.next()
 			
-			@println("pair: '{pair.key}' == '{key}'")
 			if (pair.key == key) {
-				@println("is: true")
-		@println(to_string(_json.is_next))
 				return true
 			}
-			
-			@println("nxt")
 		}
 		
-		@println("is: false")
-		@println(to_string(_json.is_next))
 		return false
 	}
 	

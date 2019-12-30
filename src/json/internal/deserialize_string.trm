@@ -4,14 +4,14 @@ string deserialize_string(StringView input)
 {
 	string quote = input.take(1)
 	
-	if (quote != "'") {
+	if (quote != "\"") {
 		@panic("expected quote for input: {input.to_string()}")
 	}
 	
 	string total = ""
 	string took = ""
 	
-	while (took != "'") {
+	while (took != "\"") {
 		total = "{total}{took}"
 		took = input.take(1)
 	}
