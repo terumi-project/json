@@ -33,10 +33,6 @@ class JsonObject
 	}
 	
 	JsonValue value(string key) {
-		if (!has_value(key)) {
-			@panic("JsonValue doesn't have value for key '{key}'")
-		}
-		
 		JsonObjectIterator iterator = iterate()
 		
 		while (iterator.has_next()) {
@@ -46,8 +42,8 @@ class JsonObject
 				return pair.value
 			}
 		}
-		
-		@panic("[BUG]")
+
+		@panic("JsonValue doesn't have value for key '{key}'")
 	}
 	
 	add(string key, JsonValue value) {
