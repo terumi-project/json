@@ -6,6 +6,9 @@ JsonValue deserialize_json_value(StringView input)
 	
 	if (read == "\"") return new JsonValue(deserialize_string(input))
 	if (try_number(read) < 10) return new JsonValue(deserialize_number(input))
+	if (read == "t") return new JsonValue(deserialize_bool(input))
+	if (read == "f") return new JsonValue(deserialize_bool(input))
+	
 	if (read == "\{") return new JsonValue(deserialize_json_object(input))
 	if (read == "[") return new JsonValue(deserialize_json_array(input))
 	
