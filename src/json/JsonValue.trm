@@ -10,46 +10,18 @@ class JsonValue
 	JsonObject _value_json_object
 	JsonArray _value_json_array
 
-	ctor(string value) {
-		value_string(value)
-	}
+	ctor(string value) value_string(value)
+	ctor(number value) value_number(value)
+	ctor(bool value) value_bool(value)
+	ctor(JsonObject value) value_json_object(value)
+	ctor(JsonArray value) value_json_array(value)
+	
+	bool is_string() return _value_type == 1
+	bool is_number() return _value_type == 2
+	bool is_bool() return _value_type == 3
+	bool is_json_object() return _value_type == 4
+	bool is_json_array() return _value_type == 5
 
-	ctor(number value) {
-		value_number(value)
-	}
-	
-	ctor(bool value) {
-		value_bool(value)
-	}
-	
-	ctor(JsonObject value) {
-		value_json_object(value)
-	}
-	
-	ctor(JsonArray value) {
-		value_json_array(value)
-	}
-	
-	bool is_string() {
-		return _value_type == 1
-	}
-	
-	bool is_number() {
-		return _value_type == 2
-	}
-	
-	bool is_bool() {
-		return _value_type == 3
-	}
-	
-	bool is_json_object() {
-		return _value_type == 4
-	}
-	
-	bool is_json_array() {
-		return _value_type == 5
-	}
-	
 	_ensure(number type) {
 		if (_value_type != type) {
 			@panic("JSON error: attempted to get value of type '{json_value_type_to_string(_value_type)}' as '{json_value_type_to_string(type)}'")

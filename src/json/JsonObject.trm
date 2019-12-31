@@ -55,7 +55,13 @@ class JsonObject
 		
 		_top = new_top
 	}
-	
+
+	add(string key, string value) add(key, new JsonValue(value))
+	add(string key, number value) add(key, new JsonValue(value))
+	add(string key, bool value) add(key, new JsonValue(value))
+	add(string key, JsonObject value) add(key, new JsonValue(value))
+	add(string key, JsonArray value) add(key, new JsonValue(value))
+
 	JsonObjectIterator iterate() {
 		return new JsonObjectIterator(_json)
 	}

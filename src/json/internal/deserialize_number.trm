@@ -3,6 +3,12 @@ use json
 number deserialize_number(StringView input)
 {
 	string first = input.take(1)
+	bool is_negative = first == "-"
+	
+	if (is_negative) {
+		first = input.take(1)
+	}
+	
 	number total = try_number(first)
 	
 	if (total == 10) {
@@ -20,6 +26,10 @@ number deserialize_number(StringView input)
 		} else {
 			tried = try_number(input.peek(1))
 		}
+	}
+	
+	if (is_negative) {
+		return 0 - total
 	}
 	
 	return total

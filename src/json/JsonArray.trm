@@ -47,6 +47,12 @@ class JsonArray
 		
 		_top = new_top
 	}
+
+	add(string value) add(new JsonValue(value))
+	add(number value) add(new JsonValue(value))
+	add(bool value) add(new JsonValue(value))
+	add(JsonObject value) add(new JsonValue(value))
+	add(JsonArray value) add(new JsonValue(value))
 	
 	// 'put' because 'set' is reserved
 	// TODO: allow 'set' as method name
