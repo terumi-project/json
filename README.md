@@ -4,10 +4,10 @@
 
 Supports:
 
-[x] - strings
-[x] - numbers
-[ ] - negative numbers
-[ ] - decimal numbers
-[ ] - booleans
-[x] - json objects
-[ ] - json arrays
+* [x] strings
+* [x] numbers
+* [x] negative numbers
+* [ ] decimal numbers
+* [x] booleans
+* [x] json objects
+* [x] json arrays
